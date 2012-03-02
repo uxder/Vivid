@@ -66,12 +66,12 @@ Vivid.core = (function( window, document, $){
 		$elem, 
 		imgW,
 		imgH,
+		img,
 		$canvas,
 		ctx,
-		effect,
 		//default options
 		options = {
-			effect: 'blackWhite'
+			filter: 'blackWhite'
 		};
 	
 	/**
@@ -86,12 +86,16 @@ Vivid.core = (function( window, document, $){
 
 	    elem  = el;
 	    $elem = $(elem);
-	
+
 		build();
+		transferStyles();
+		transferClassAndId();
 		draw();
-		
-		//create filter
-		applyFilter(options.effect);
+		applyFilter(options.filter);
+
+		//remove the image 
+		$elem.remove();
+
 		
 	    // for chaining
 	    return this;
@@ -141,12 +145,6 @@ Vivid.core = (function( window, document, $){
 		//save and create canvas context
 		$canvas = $elem.next('canvas');
 		ctx = $canvas[0].getContext('2d');
-		
-		transferStyles();
-		transferClassAndId();
-		
-		//remove the image 
-		$elem.remove();
 	}
 	
 	/**
@@ -193,10 +191,10 @@ Vivid.core = (function( window, document, $){
 	
 	
 	/**
-	 * Draw the image onto the canvas
+	 * Draw the image onto the canvas after the image has been loaded
 	 */
 	var draw = function() {
-		ctx.drawImage($elem[0], 0, 0, imgW, imgH);
+			ctx.drawImage($elem[0], 0, 0, imgW, imgH);
 	}
 	
 	return n;
