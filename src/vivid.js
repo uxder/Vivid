@@ -8,7 +8,7 @@
  * Create Vivid GlobalNameSpace
  */
 var Vivid = Vivid || {
-	plugin: {},
+	filter: {},
 	Core: {}
 };
 
@@ -47,8 +47,8 @@ Vivid.core = (function( window, document, $){
 		build();
 		draw();
 		
-		//create effect
-		applyEffect(options.effect);
+		//create filter
+		applyFilter(options.effect);
 		
 	    // for chaining
 	    return this;
@@ -57,10 +57,10 @@ Vivid.core = (function( window, document, $){
 	
 	
 	/**
-	 * apply the desired plugin effect
-	 * @param {String} [effectName] Name of effect to initialize
+	 * apply the desired filter effect
+	 * @param {String} [filterName] Name of effect to initialize
 	 */
-	var applyEffect = function(effectName) {
+	var applyFilter = function(filterName) {
 		//explictly set items to the plugin
 		var settings = {
 			"elem": elem,
@@ -72,9 +72,9 @@ Vivid.core = (function( window, document, $){
 			"options": options
 		};
 		//try {
-			effect = new Vivid.plugin[effectName](settings);
+			effect = new Vivid.filter[filterName](settings);
 	//	} catch(err) {
-	//		throw new Error("Oops.  Looks like the Vivid Effect you requested is not available.");
+	//		throw new Error("Oops.  Looks like the Vivid Filter you requested is not available.");
 	//	}
 	}
 	
@@ -90,19 +90,16 @@ Vivid.core = (function( window, document, $){
 		
 		imgW = $elem.width();
 		imgH = $elem.height();
-		console.log($elem[0],  $elem.css);
-		style = $elem[0].style;
 		
+		//create a canvas element 
 		canvasHtml = '<canvas width="'+ imgW +'" height="'+ imgH +'"></canvas>';
-		//create a canvas element next to the canvas and hide original image
 		$elem.after(canvasHtml);
 		
-		//save this canvas
+		//save and create canvas context
 		$canvas = $elem.next('canvas');
-		//create and save canvas context
 		ctx = $canvas[0].getContext('2d');
 		
-		transferClassAndId();
+		transferStyles();
 	
 		//remove the image 
 		$elem.remove();
@@ -110,8 +107,14 @@ Vivid.core = (function( window, document, $){
 	
 	/**
 	 * Transfer the ID and Class from the Image to Generated Canvas
+	 * Also Transfer any computed Styles
 	 */
-	var transferClassAndId = function() {
+	var transferStyles = function() {
+		//transfer any computed Styles
+		var elem1 = document.getElementById("photo1");  
+		console.log(window.getComputedStyle($elem[0], null));
+		console.log($elem[0].style);
+		
 		//transfer all image classes to the canvas
 		classList = $elem[0].className.split(/\s+/);
 		for (var i = 0; i < classList.length; i++) {
@@ -169,7 +172,7 @@ $.fn.vivid = function(options) {
 /**
  * Vivid blackWhite Plugin
  */
-Vivid.plugin.blackWhite = (function() {
+Vivid.filter.blackWhite = (function() {
 	
 	//shortname for settings
 	var s;

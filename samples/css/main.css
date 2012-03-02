@@ -1,12 +1,13 @@
 #photo1 {
 	background-color:black;
 	color:white;
-	float:right;
+	float: left;
 }
 
-.hohoho {
+img {
 	border: 3px solid black;
 }
+
 
 #photo2 {
 	float:right;
