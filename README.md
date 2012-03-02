@@ -7,6 +7,7 @@
 Vivid is a jQuery Plugin that transforms an image into a canvas so you can apply filter effects to it.
 Vivid is great because:
 
+- Apply filters like black and white (desaturation) to your image (or technically canvas)
 - Vivid will maintain the original css applied to your image and transfer it to the canvas.
 - Vivid also has a simple plugin mechanism so you can easily create your own filters.  
 - Each filter can also accept its own options
