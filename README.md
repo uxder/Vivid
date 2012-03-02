@@ -19,9 +19,9 @@ Not really.  I'm still working on this so it's untested and is more experimental
 
 ##How do I use vivid?
 
-Vivid needs to be applied to an image.  Set the filter by setting the name in the filter option (or defaults to blackWhite).
-Additionally, set the options of the filter you are applying by adding an object literal with the filter name in.  Each plugin
-will have different options.
+Vivid needs to be applied to an image.  Set the filter by setting the filter name in the filter option (otherwise defaults to blackWhite).
+Additionally, set the options of the filter you are applying by adding an object literal with the filter name in.  Every filter plugin has
+different options.  Example:
 
  $('#someImage').vivid(
 	{
