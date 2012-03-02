@@ -181,7 +181,7 @@ Vivid.filter.blackWhite = (function() {
 	 * Constructor
 	 * @param {Object Literal} [settings]  Object that contains elem, $elem, imgW, imgH, $canvas, ctx, options
 	 */
-	var plugin = function(settings) {
+	var filter = function(settings) {
 		//set the settings
 		s = settings;
 		//initialize plugin
@@ -189,7 +189,7 @@ Vivid.filter.blackWhite = (function() {
 	}
 	
 	//Pubic Methods
-	plugin.prototype = {
+	filter.prototype = {
 		init: function() {
 			var imgd = s.ctx.getImageData(0, 0, s.imgW, s.imgH);
 			var pix = imgd.data;
@@ -204,6 +204,6 @@ Vivid.filter.blackWhite = (function() {
 	}
 	
 	//return the plugin object
-	return plugin;
+	return filter;
 })();
 
