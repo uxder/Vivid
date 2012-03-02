@@ -12,25 +12,6 @@ var Vivid = Vivid || {
 	Core: {}
 };
 
-
-/**
- * Vivid blackWhite Plugin
- */
-Vivid.plugin.blackWhite = (function() {
-	
-	/**
-	 * Constructor
-	 */
-	var plugin = function(ctx) {
-		console.log('test');
-	}
-	
-	return plugin;
-	
-})();
-
-
-
 /**
  * Vivid Core
  */
@@ -77,11 +58,21 @@ Vivid.core = (function( window, document, $){
 	 * @param {String} [effectName] Name of effect to initialize
 	 */
 	applyEffect = function(effectName) {
-		try {
-			effect = new Vivid.plugin[effectName](ctx);
-		} catch(err) {
-			throw new Error("Oops.  Looks like the Vivid Effect you requested is not available.");
-		}
+		//explictly set items to the plugin
+		var settings = {
+			"elem": elem,
+			"$elem": $elem,
+			"imgW": imgW,
+			"imgH": imgH,
+			"$canvas": $canvas,
+			"ctx": ctx,
+			"options": options
+		};
+		//try {
+			effect = new Vivid.plugin[effectName](settings);
+	//	} catch(err) {
+	//		throw new Error("Oops.  Looks like the Vivid Effect you requested is not available.");
+	//	}
 	}
 	
 	
@@ -96,12 +87,13 @@ Vivid.core = (function( window, document, $){
 		imgH = $elem.height();
 		
 		canvasHtml = '<canvas width="'+ imgW +'" height="'+ imgH +'"></canvas>';
-		//create a canvas element next to the canvas
-		$elem.after(canvasHtml);
+		//create a canvas element next to the canvas and hide original image
+		$elem.after(canvasHtml).hide();
 		//save this canvas
 		$canvas = $elem.next('canvas');
 		//create and save canvas context
 		ctx = $canvas[0].getContext('2d');
+		
 	}
 	
 	/**
@@ -127,10 +119,49 @@ if ( typeof Object.create !== 'function' ) {
 }
 
 /*
- * Finally Create the Nebula Object
+ * Finally Create the Vivid jQuery Plugin Object
  */
 $.fn.vivid = function(options) {
 	Object.create(Vivid.core(options, this));
 }
 
+
+
+/**
+ * Vivid blackWhite Plugin
+ */
+Vivid.plugin.blackWhite = (function() {
+	
+	//shortname for settings
+	var s;
+	
+	/**
+	 * Constructor
+	 * @param {Object Literal} [settings]  Object that contains elem, $elem, imgW, imgH, $canvas, ctx, options
+	 */
+	var plugin = function(settings) {
+		//set the settings
+		s = settings;
+		//initialize plugin
+		this.init();
+	}
+	
+	//Pubic Methods
+	plugin.prototype = {
+		init: function() {
+			var imgd = s.ctx.getImageData(0, 0, s.imgW, s.imgH);
+			var pix = imgd.data;
+			for (var i = 0, n = pix.length; i < n; i += 4) {
+			    var grayscale = pix[i  ] * .3 + pix[i+1] * .59 + pix[i+2] * .11;
+			    pix[i] = grayscale;   // red
+			    pix[i+1] = grayscale;   // green
+			    pix[i+2] = grayscale;   // blue
+			 }
+			s.ctx.putImageData(imgd, 0, 0);
+		}
+	}
+	
+	//return the plugin object
+	return plugin;
+})();
 
