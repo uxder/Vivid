@@ -36,7 +36,8 @@ Vivid.core = (function( window, document, $){
 	 * @param {Object Literal} [op] User defined setting to the plugin options
 	 * @return this for jQuery chaining
 	 */
-	var n = function( op, el ) {
+	var n = function( el, op ) {
+		
 		// Mix in the passed-in options with the default options
 	    options = $.extend( {}, options, op );
 
@@ -52,12 +53,14 @@ Vivid.core = (function( window, document, $){
 	    // for chaining
 	    return this;
 	};
-
+	
+	
+	
 	/**
 	 * apply the desired plugin effect
 	 * @param {String} [effectName] Name of effect to initialize
 	 */
-	applyEffect = function(effectName) {
+	var applyEffect = function(effectName) {
 		//explictly set items to the plugin
 		var settings = {
 			"elem": elem,
@@ -81,19 +84,42 @@ Vivid.core = (function( window, document, $){
 	 */
 	var build = function() {
 
-		var	canvasHtml;
+		var	canvasHtml, 
+			style, 
+			classList;
 		
 		imgW = $elem.width();
 		imgH = $elem.height();
+		console.log($elem[0],  $elem.css);
+		style = $elem[0].style;
 		
 		canvasHtml = '<canvas width="'+ imgW +'" height="'+ imgH +'"></canvas>';
 		//create a canvas element next to the canvas and hide original image
-		$elem.after(canvasHtml).hide();
+		$elem.after(canvasHtml);
+		
 		//save this canvas
 		$canvas = $elem.next('canvas');
 		//create and save canvas context
 		ctx = $canvas[0].getContext('2d');
 		
+		transferClassAndId();
+	
+		//remove the image 
+		$elem.remove();
+	}
+	
+	/**
+	 * Transfer the ID and Class from the Image to Generated Canvas
+	 */
+	var transferClassAndId = function() {
+		//transfer all image classes to the canvas
+		classList = $elem[0].className.split(/\s+/);
+		for (var i = 0; i < classList.length; i++) {
+			$canvas.addClass(classList[i]);
+		}
+		
+		//transfer any ID elements
+		if($elem.attr('id')) $canvas.attr('id', $elem.attr('id'));
 	}
 	
 	/**
@@ -122,7 +148,20 @@ if ( typeof Object.create !== 'function' ) {
  * Finally Create the Vivid jQuery Plugin Object
  */
 $.fn.vivid = function(options) {
-	Object.create(Vivid.core(options, this));
+	
+	//test for canvas support
+	//TODO
+	var noCanvasSupport = function() {
+		return false;
+	}
+	
+	//check for canvas support
+	if(noCanvasSupport()) return;
+	
+	//create Vivid object
+	return this.each(function() {
+		Object.create(Vivid.core(this,options));
+	});
 }
 
 
