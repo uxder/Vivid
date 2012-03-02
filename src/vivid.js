@@ -100,30 +100,54 @@ Vivid.core = (function( window, document, $){
 		ctx = $canvas[0].getContext('2d');
 		
 		transferStyles();
-	
+		transferClassAndId();
+		
 		//remove the image 
 		$elem.remove();
 	}
 	
 	/**
-	 * Transfer the ID and Class from the Image to Generated Canvas
-	 * Also Transfer any computed Styles
+	 * Also computed Styles of the image to the canvas
 	 */
 	var transferStyles = function() {
-		//transfer any computed Styles
-		var elem1 = document.getElementById("photo1");  
-		console.log(window.getComputedStyle($elem[0], null));
-		console.log($elem[0].style);
+		//transfer any computed Styles	
+		var style = {},
+			cStyle,
+			camelize;
 		
-		//transfer all image classes to the canvas
-		classList = $elem[0].className.split(/\s+/);
-		for (var i = 0; i < classList.length; i++) {
-			$canvas.addClass(classList[i]);
+		camelize = function(a,b){
+		        return b.toUpperCase();
 		}
 		
-		//transfer any ID elements
-		if($elem.attr('id')) $canvas.attr('id', $elem.attr('id'));
+		//get the computer style for the image*/
+		cStyle = window.getComputedStyle($elem[0], null)
+		
+		//loop through it and reformat as an object we can pass to jQuery .css method
+		for(var i=0;i<cStyle.length;i++){
+		      var p = cStyle[i];
+		      var c = p.replace(/\-([a-z])/g, camelize);
+		      var v = cStyle.getPropertyValue(p);
+		      style[c] = v;
+		}
+		
+		//apply style
+		$canvas.css(style);
 	}
+	
+	/**
+	 * Transfer over classes and Ids that were on the image to the canvas
+	 */
+	var transferClassAndId = function() {
+			//transfer all image classes to the canvas
+			classList = $elem[0].className.split(/\s+/);
+			for (var i = 0; i < classList.length; i++) {
+				$canvas.addClass(classList[i]);
+			}
+
+			//transfer any ID elements
+			if($elem.attr('id')) $canvas.attr('id', $elem.attr('id'));
+	}
+	
 	
 	/**
 	 * Draw the image onto the canvas
@@ -192,12 +216,12 @@ Vivid.filter.blackWhite = (function() {
 	filter.prototype = {
 		init: function() {
 			var imgd = s.ctx.getImageData(0, 0, s.imgW, s.imgH);
-			var pix = imgd.data;
-			for (var i = 0, n = pix.length; i < n; i += 4) {
-			    var grayscale = pix[i  ] * .3 + pix[i+1] * .59 + pix[i+2] * .11;
-			    pix[i] = grayscale;   // red
-			    pix[i+1] = grayscale;   // green
-			    pix[i+2] = grayscale;   // blue
+			var p = imgd.data;
+			for (var i = 0, n = p.length; i < n; i += 4) {
+			    var grayscale = p[i] * .3 + p[i+1] * .59 + p[i+2] * .11;
+			    p[i] = grayscale;   // red
+			    p[i+1] = grayscale;   // green
+			    p[i+2] = grayscale;   // blue
 			 }
 			s.ctx.putImageData(imgd, 0, 0);
 		}
