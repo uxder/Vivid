@@ -26,7 +26,12 @@
   <script src="js/jquery-1.7.1.min.js"></script>
   <script src="../src/vivid.js"></script>
   <script>
-   		$('.test').vivid();
+   		$('.test').vivid({
+			filter: 'blackAndWhite',
+			blackWhite: {
+				lightness: 0.3
+			}
+		});
 
 
 		/**

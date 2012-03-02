@@ -191,15 +191,25 @@ $.fn.vivid = function(options) {
 	});
 }
 
-
+/**
+ * Prototype for plugin
+ */
+Vivid.filter.base = function() {
+	var s,
+		pluginName = "blackWhite",
+	 	options = {};
+}
 
 /**
  * Vivid blackWhite Plugin
  */
-Vivid.filter.blackWhite = (function() {
-	
+Vivid.filter.blackWhite = (function( window, document, jQuery) {
 	//shortname for settings
-	var s;
+	var s,
+		pluginName = "blackWhite",
+	 	options = {
+			lightness: 0.3
+	    };
 	
 	/**
 	 * Constructor
@@ -208,6 +218,8 @@ Vivid.filter.blackWhite = (function() {
 	var filter = function(settings) {
 		//set the settings
 		s = settings;
+		// Mix in the passed-in options with the default options
+		options = $.extend( {}, options, s.options[pluginName] );
 		//initialize plugin
 		this.init();
 	}
@@ -218,10 +230,11 @@ Vivid.filter.blackWhite = (function() {
 			var imgd = s.ctx.getImageData(0, 0, s.imgW, s.imgH);
 			var p = imgd.data;
 			for (var i = 0, n = p.length; i < n; i += 4) {
-			    var grayscale = p[i] * .3 + p[i+1] * .59 + p[i+2] * .11;
-			    p[i] = grayscale;   // red
-			    p[i+1] = grayscale;   // green
-			    p[i+2] = grayscale;   // blue
+			    var grayscale = p[i] * options.lightness + p[i+1] * 0.6 + p[i+2] * 0.1;
+			
+			    p[i] = grayscale; 	 //red  
+			    p[i+1] = grayscale;  //blue
+			    p[i+2] = grayscale;  //green
 			 }
 			s.ctx.putImageData(imgd, 0, 0);
 		}
@@ -229,5 +242,5 @@ Vivid.filter.blackWhite = (function() {
 	
 	//return the plugin object
 	return filter;
-})();
+})( window, document, jQuery );
 
