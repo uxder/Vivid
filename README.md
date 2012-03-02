@@ -1,4 +1,4 @@
-This project is still a work in progress.
+*This project is still a work in progress and probably isn't ready for production.
 
 #Vivid - A jQuery Html5 Canvas Photo Effects Plugin
 
@@ -28,7 +28,9 @@ will have different options.
 	}
  );
 
+The best place to start is to just look at the sample in /samples/samples.html.
 
 ##How can I help?
 
-If you want to join me on this project, send me a pull request with changes.  You can check out the blackWhite filter and use that as a sample to create additional filters.
+This project is a work in progress so any help is appreciated.  Send me a pull request with changes.  
+You can check out the blackWhite filter and use that as a sample to create additional filters.
