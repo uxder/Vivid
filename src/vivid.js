@@ -52,7 +52,7 @@
  */
 var Vivid = Vivid || {
 	filter: {},
-	Core: {}
+	core: {}
 };
 
 /**
