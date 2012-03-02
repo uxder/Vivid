@@ -220,13 +220,14 @@ if ( typeof Object.create !== 'function' ) {
 $.fn.vivid = function(options) {
 	
 	//test for canvas support
-	//TODO
-	var noCanvasSupport = function() {
-		return false;
+	//or is it best to have user test this with modernizr?
+	var canvasSupport = function() {
+		var elem = document.createElement('canvas');
+		return !!(elem.getContext && elem.getContext('2d'));
 	}
 	
 	//check for canvas support
-	if(noCanvasSupport()) return;
+	if(!canvasSupport()) return;
 	
 	//create Vivid object
 	return this.each(function() {
