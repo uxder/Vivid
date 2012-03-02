@@ -17,8 +17,8 @@
 
 	<div id="main">
 		<h1>Vivid</h1>
-		<img src="img/1.jpg" id="photo1" class="test hohoho yuppy"/>
-		<img src="img/2.jpg" id="photo2" class="test" width="200px" height="200px"/>
+		<img src="img/1.jpg" id="photo1" class="vivid hohoho yuppy"/>
+		<img src="img/2.jpg" id="photo2" class="vivid" width="300px" height="300px"/>
 	</div>
 
 
@@ -26,7 +26,7 @@
   <script src="js/jquery-1.7.1.min.js"></script>
   <script src="../src/vivid.js"></script>
   <script>
-   		$('.test').vivid({
+   		$('.vivid').vivid({
 			filter: 'blackAndWhite',
 			blackWhite: {
 				lightness: 0.3
@@ -38,8 +38,14 @@
 		Ideal API
 		$('selector').vivid({
 			filter: 'blackAndWhite',
+			blackWhite: {
+				lightness: 0.3
+			},
+			anotherFilter: {
+				amount: 100
+			},
 			onHover: {
-				filter: 'anotherEffect',
+				filter: 'anotherFilter',
 				callback: function() {
 					$(this).hide();
 				}

@@ -1,7 +1,51 @@
 /* 
-   Author: Scott Murphy 
+   Radio.js - Chainable, Dependency Free Publish/Subscribe for Javascript
+   Author: Scott Murphy 2012
+   Github: uxder
    Vivid - A jQuery Html5 Canvas Photo Effects Plugin
-   Using a slightly modified version of Alex Sexton's jquery.prototypal-inheritance pattern.
+   Version - totally still working this version
+   Description:
+	Vivid is a jQuery Plugin that transforms an image into a canvas so you can apply effects to it.
+	Apply vivid to any image and it will replace it with a canvas that has all the same css styles and classes applied to the 
+	original image.
+	
+	Vivid also has a simple plugin mechanism so you can easily create your own filters.  Each filter can accpet its own options
+	Currently the default the filter is the blackWhite filter which can serve as an example to create other filters.
+		
+	See samples/samples.html for more.
+	
+   Usage:
+	 $('#someImage').vivid(
+		{
+			filter: 'blackAndWhite',
+			blackWhite: {
+				lightness: 0.3
+			}
+		}
+	 );
+	
+	
+	License: 
+	 Permission is hereby granted, free of charge, to any person
+ 	 obtaining a copy of this software and associated documentation
+	 files (the "Software"), to deal in the Software without
+	 restriction, including without limitation the rights to use,
+	 copy, modify, merge, publish, distribute, sublicense, and/or sell
+	 copies of the Software, and to permit persons to whom the
+	 Software is furnished to do so, subject to the following
+	 conditions:
+
+	 The above copyright notice and this permission notice shall be
+	 included in all copies or substantial portions of the Software.
+
+	 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+	 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+	 OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+	 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+	 HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+	 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+	 OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /**
@@ -192,9 +236,9 @@ $.fn.vivid = function(options) {
 }
 
 
-/**
+/*************
  * Vivid blackWhite Plugin
- */
+ *************/
 Vivid.filter.blackWhite = (function( window, document, jQuery) {
 	//shortname for settings
 	var s,
