@@ -1,8 +1,7 @@
 /* 
-   Radio.js - Chainable, Dependency Free Publish/Subscribe for Javascript
+   Vivid - A jQuery Html5 Canvas Photo Effects Plugin
    Author: Scott Murphy 2012
    Github: uxder
-   Vivid - A jQuery Html5 Canvas Photo Effects Plugin
    Version - totally still working this version
    Description:
 	Vivid is a jQuery Plugin that transforms an image into a canvas so you can apply effects to it.
