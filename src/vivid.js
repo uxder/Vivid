@@ -2,7 +2,7 @@
    Vivid - A jQuery Html5 Canvas Photo Effects Plugin
    Author: Scott Murphy 2012
    Github: uxder
-   Version - totally still working this version
+   Version - totally still working on this version
    Description:
 	Vivid is a jQuery Plugin that transforms an image into a canvas so you can apply effects to it.
 	Apply vivid to any image and it will replace it with a canvas that has all the same css styles and classes applied to the 
@@ -16,7 +16,7 @@
    Usage:
 	 $('#someImage').vivid(
 		{
-			filter: 'blackAndWhite',
+			filter: 'blackWhite',
 			blackWhite: {
 				lightness: 0.3
 			}

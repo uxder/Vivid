@@ -13,6 +13,10 @@ Vivid is great because:
 
 Currently the default the filter is the blackWhite filter which accepts a lightness option.
 
+###Is Vivid production ready?
+
+Not really.  I'm still working on this so it's untested and is more experimental at this point.
+
 ##How do I use vivid?
 
 Vivid needs to be applied to an image.  Set the filter by setting the name in the filter option (or defaults to blackWhite).
