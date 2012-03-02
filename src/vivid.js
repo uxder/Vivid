@@ -191,14 +191,6 @@ $.fn.vivid = function(options) {
 	});
 }
 
-/**
- * Prototype for plugin
- */
-Vivid.filter.base = function() {
-	var s,
-		pluginName = "blackWhite",
-	 	options = {};
-}
 
 /**
  * Vivid blackWhite Plugin

@@ -1,14 +1,11 @@
-#photo1 {
-	background-color:black;
-	color:white;
-	float: left;
-}
-
 img {
 	border: 3px solid black;
 }
 
+#photo1 {
+	border-color:orange;
+}
 
 #photo2 {
-	float:right;
+	border-color:red;
 }
