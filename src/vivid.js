@@ -2,7 +2,7 @@
    Vivid - A jQuery Html5 Canvas Photo Effects Plugin
    Author: Scott Murphy 2012
    Github: uxder
-   Version - totally still working on this version
+   Version - totally still working on this version and Experimental
    Description:
 	Vivid is a jQuery Plugin that transforms an image into a canvas so you can apply effects to it.
 	Apply vivid to any image and it will replace it with a canvas that has all the same css styles and classes applied to the 
@@ -73,14 +73,13 @@ Vivid.core = (function( window, document, $){
 		options = {
 			filter: 'blackWhite'
 		};
-	
+
 	/**
-	 * Constructor Method for Nebula
+	 * Constructor Method for Vivid
 	 * @param {Object Literal} [op] User defined setting to the plugin options
 	 * @return this for jQuery chaining
 	 */
-	var n = function( el, op ) {
-		
+	var n = function( el, op ) {	
 		// Mix in the passed-in options with the default options
 	    options = $.extend( {}, options, op );
 
@@ -94,15 +93,13 @@ Vivid.core = (function( window, document, $){
 		applyFilter(options.filter);
 
 		//remove the image 
-		$elem.remove();
+		$elem.hide();
 
-		
 	    // for chaining
 	    return this;
 	};
-	
-	
-	
+
+
 	/**
 	 * apply the desired filter effect
 	 * @param {String} [filterName] Name of effect to initialize
@@ -118,14 +115,15 @@ Vivid.core = (function( window, document, $){
 			"ctx": ctx,
 			"options": options
 		};
+		
 		//try {
 			effect = new Vivid.filter[filterName](settings);
 	//	} catch(err) {
 	//		throw new Error("Oops.  Looks like the Vivid Filter you requested is not available.");
 	//	}
 	}
-	
-	
+
+
 	/**
 	 * Create a dynamic canvas element and hide the $elem image
 	 */
@@ -134,19 +132,19 @@ Vivid.core = (function( window, document, $){
 		var	canvasHtml, 
 			style, 
 			classList;
-		
+
 		imgW = $elem.width();
 		imgH = $elem.height();
-		
+
 		//create a canvas element 
 		canvasHtml = '<canvas width="'+ imgW +'" height="'+ imgH +'"></canvas>';
 		$elem.after(canvasHtml);
-		
+
 		//save and create canvas context
 		$canvas = $elem.next('canvas');
 		ctx = $canvas[0].getContext('2d');
 	}
-	
+
 	/**
 	 * Also computed Styles of the image to the canvas
 	 */
@@ -155,14 +153,14 @@ Vivid.core = (function( window, document, $){
 		var style = {},
 			cStyle,
 			camelize;
-		
+
 		camelize = function(a,b){
 		        return b.toUpperCase();
 		}
-		
+
 		//get the computer style for the image*/
 		cStyle = window.getComputedStyle($elem[0], null)
-		
+
 		//loop through it and reformat as an object we can pass to jQuery .css method
 		for(var i=0;i<cStyle.length;i++){
 		      var p = cStyle[i];
@@ -170,11 +168,11 @@ Vivid.core = (function( window, document, $){
 		      var v = cStyle.getPropertyValue(p);
 		      style[c] = v;
 		}
-		
+
 		//apply style
 		$canvas.css(style);
 	}
-	
+
 	/**
 	 * Transfer over classes and Ids that were on the image to the canvas
 	 */
@@ -188,17 +186,17 @@ Vivid.core = (function( window, document, $){
 			//transfer any ID elements
 			if($elem.attr('id')) $canvas.attr('id', $elem.attr('id'));
 	}
-	
-	
+
+
 	/**
 	 * Draw the image onto the canvas after the image has been loaded
 	 */
 	var draw = function() {
 			ctx.drawImage($elem[0], 0, 0, imgW, imgH);
 	}
-	
+
 	return n;
-	
+
 })( window, document, jQuery );
 
 /*
@@ -216,20 +214,24 @@ if ( typeof Object.create !== 'function' ) {
  * Finally Create the Vivid jQuery Plugin Object
  */
 $.fn.vivid = function(options) {
-	
+
 	//test for canvas support
 	//or is it best to have user test this with modernizr?
 	var canvasSupport = function() {
 		var elem = document.createElement('canvas');
 		return !!(elem.getContext && elem.getContext('2d'));
 	}
-	
+
 	//check for canvas support
 	if(!canvasSupport()) return;
-	
-	//create Vivid object
-	return this.each(function() {
-		Object.create(Vivid.core(this,options));
+
+	var self = this; //self correct scope
+	//need to wait for the window to load to ensure that image width is calculated
+	$(window).load(function() {
+		//create Vivid object
+		return self.each(function() {
+			Object.create(Vivid.core(this,options));
+		});
 	});
 }
 
@@ -244,7 +246,7 @@ Vivid.filter.blackWhite = (function( window, document, jQuery) {
 	 	options = {
 			lightness: 0.3
 	    };
-	
+
 	/**
 	 * Constructor
 	 * @param {Object Literal} [settings]  Object that contains elem, $elem, imgW, imgH, $canvas, ctx, options
@@ -257,7 +259,7 @@ Vivid.filter.blackWhite = (function( window, document, jQuery) {
 		//initialize plugin
 		this.init();
 	}
-	
+
 	//Pubic Methods
 	filter.prototype = {
 		init: function() {
@@ -265,7 +267,7 @@ Vivid.filter.blackWhite = (function( window, document, jQuery) {
 			var p = imgd.data;
 			for (var i = 0, n = p.length; i < n; i += 4) {
 			    var grayscale = p[i] * options.lightness + p[i+1] * 0.6 + p[i+2] * 0.1;
-			
+
 			    p[i] = grayscale; 	 //red  
 			    p[i+1] = grayscale;  //blue
 			    p[i+2] = grayscale;  //green
@@ -273,8 +275,7 @@ Vivid.filter.blackWhite = (function( window, document, jQuery) {
 			s.ctx.putImageData(imgd, 0, 0);
 		}
 	}
-	
+
 	//return the plugin object
 	return filter;
 })( window, document, jQuery );
-
